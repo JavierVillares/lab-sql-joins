@@ -46,18 +46,20 @@ LIMIT 10;
 -- 7. 
 SELECT 
     CASE 
-        WHEN COUNT(*) > 0 THEN 'Available'
-        ELSE 'Not Available'
+        WHEN COUNT(rental.inventory_id) > 0 THEN 'NO'
+        ELSE 'YES'
     END AS availability
 FROM 
-    film f
+    film
 JOIN 
-    inventory i ON f.film_id = i.film_id
+    inventory ON film.film_id = inventory.film_id
+LEFT JOIN 
+    rental ON inventory.inventory_id = rental.inventory_id
 JOIN 
-    store s ON i.store_id = s.store_id
+    store ON inventory.store_id = store.store_id
 WHERE 
-    f.title = 'Academy Dinosaur'
-    AND s.store_id = 1;
+    film.title = 'Academy Dinosaur' AND
+    store.store_id = 1;
 
 -- 8.
 SELECT 
